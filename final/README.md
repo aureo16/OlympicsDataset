@@ -86,6 +86,8 @@ Olympics.com | [Link](https://olympics.com) |Site oficial do Comitê Olímpico I
 
 * Para um determinado esporte, existe algum país que constantemente é medalha de ouro?
 
+  * **Uso do modelo relacional**
+
   * Para essa análise, serão selecionados os comites ganhadores de medalha de ouro para uma determinada modalidade, em todas as olimpíadas, e agrupados pelo próprio comite, de forma a contar quantas medalhas de ouro cada um teve.
 
   * Query SQL:
@@ -107,6 +109,8 @@ Olympics.com | [Link](https://olympics.com) |Site oficial do Comitê Olímpico I
 ### Pergunta/Análise 2
 
 * Existe alguma relação entre altura do atleta e esporte praticado por ele? E em relação ao peso?
+
+  * **Uso do modelo relacional**
 
   * Para essa análise, calculamos a media de altura dos atletas em cada modalidade, além da media geral da olímpiada. Com isso, podemos ver que modalidades tem maior e menor média tanto de altura como de peso.
 
@@ -163,6 +167,8 @@ Olympics.com | [Link](https://olympics.com) |Site oficial do Comitê Olímpico I
 
 * Qual a média de idade dos atletas nas primeiras Olimpíadas? E nas últimas?
 
+  * **Uso do modelo relacional**
+
   * Para essa análise, a idade dos atletas é calculada com base no seu ano de nascimento e a edição em que participa. Em seguida, calculamos a média de idade por edição.
 
   * Query SQL:
@@ -190,6 +196,8 @@ Olympics.com | [Link](https://olympics.com) |Site oficial do Comitê Olímpico I
  
 * No período da Guerra Fria, é possível ver o predomínio das duas grandes potências nos pódios das Olímpiadas?
 
+  * **Uso do modelo relacional**
+
   * Para essa análise, buscamos a classificação dos Estados Unidos e da União Soviética no periodo entre 1947 e 1989 (periodo da Guerra Fria).
 
   * Query SQL:
@@ -210,6 +218,8 @@ Olympics.com | [Link](https://olympics.com) |Site oficial do Comitê Olímpico I
  
 * Qual a proporção de atletas do sexo masculino e do sexo feminino participando nos Jogos Olímpicos?
 
+  * **Uso do modelo relacional**
+
   * Para essa análise, selecionamos o sexo dos atletas e agrupamos os dados de forma a encontrar o total de atletas do sexo masculino ou feminino em uma determinada edição.
 
   * Query SQL:
@@ -229,31 +239,153 @@ Olympics.com | [Link](https://olympics.com) |Site oficial do Comitê Olímpico I
 
     Vemos que a proporção entre os sexos é bem discrepante nas primeiras olimpíadas e que essa diferença vem diminuindo nos jogos mais recentes.
 
+### Pergunta/Análise 6
+
+* Quais foram os países ganhadores de medalha de ouro no esporte X nas últimas 5 Olimpíadas?
+
+  * **Uso do modelo hierárquico**
+
+  * Para essa análise, percorremos o documento procurando os ganhadores de medalha de ouro do esporte desejado para as olimpíadas de 2000 a 2016.
+
+  * Código python:
+
+    ~~~python
+    esporte="Judo"
+    modalidade="Judo Women's Heavyweight"
+    edicoes=["2016", "2012", "2008", "2004", "2000"]
+
+    for i in range (5):
+      ano=edicoes[i]
+      for j in range (len(dados["edicoes"])-1, -1, -1):
+        if (dados["edicoes"][j]["ano"]==ano):
+          for k in range (len(dados["edicoes"][j]["esportesParticipantes"])):
+            if (dados["edicoes"][j]["esportesParticipantes"][k]["nome"]==esporte):
+              for l in range (len(dados["edicoes"][j]["esportesParticipantes"][k]["modalidades"])):
+                if (dados["edicoes"][j]["esportesParticipantes"][k]["modalidades"][l]["nome"]==modalidade):
+                  print(dados["edicoes"][j]["ano"]+": "+dados["edicoes"][j]["esportesParticipantes"][k]["modalidades"][l]["ouro"])
+                  break   
+    ~~~
+
+  * Resultado:
+
+    ![pergunta6resultado](assets/pergunta6resultado.png)
+
+    Ganhadores de medalha de ouro na modalidade "Judo Women's Heavyweight"
+
+### Pergunta/Análise 7
+
+* Quais as modalidades realizadas pelo atleta X na Olimpíada X?
+
+  * **Uso do modelo hierárquico**
+
+  * Para essa análise, percorremos o documento procurando as modalidades realizadas pelo atleta desejado em uma olimpíada específica.
+
+  * Código python:
+
+    ~~~python
+    #Selecionando a olimpíada (Através do ano):
+    ano="2004"
+    #Selecionando o atleta (Através do nome):
+    atleta="Daiane Garcia dos Santos"
+
+    for j in range (len(dados["edicoes"])):
+      if (dados["edicoes"][j]["ano"]==ano):
+        numero=j
+        break
+
+    for k in range (len(dados["edicoes"][numero]["atletasParticipantes"])):
+      if (dados["edicoes"][numero]["atletasParticipantes"][k]["nome"]==atleta):
+        for l in range (len(dados["edicoes"][numero]["atletasParticipantes"][k]["esportes"])):
+          print(dados["edicoes"][numero]["atletasParticipantes"][k]["esportes"][l]["nomeModalidade"]) 
+    ~~~
+
+  * Resultado:
+
+    ![pergunta7resultado](assets/pergunta7resultado.png)
+
+    Modalidades realizadas por Daiane dos Santos em 2004
+
 ## Perguntas/Análise propostas mas não  implementada
 
 ### Pergunta/Análise 1
 
 * Quais os países que mais ganharam medalhas e os países que menos ganharam medalhas em uma determinada Olimpíada?
 
+  * **Uso do modelo relacional**
+
+  * Podemos selecionar os comites de maior e menor classificação em uma edição específica e até mesmo comparar entre diversas edições para analisar se os países alto classificados mantém sua posição e se os países de baixa classificação tem alguma evolução.
+
 ### Pergunta/Análise 2
 
 * Qual o número médio de medalhas de um país nas Olimpíadas que ele participou?
+
+  * **Uso do modelo relacional**
+
+  * Podemos calcular essa média para analisar que países conseguem manter um alto número de medalhas nas edições. Para isso, deve-se somar a quantidade de medalhas de ouro, prata e bronze de um comite para cada edição e, por fim, realizar a média.
 
 ### Pergunta/Análise 3
 
 * Em quantas Olimpíadas um determinado atleta participou e quantas medalhas ele ganhou?
 
+  * **Uso do modelo relacional**
+
+  * Trata-se de uma pergunta que busca saber o histórico de um atleta nas edições. Através da tabela de "participação dos atletas" podemos somar suas paticipações em jogos e as medalhas que conquistou.
+
 ### Pergunta/Análise 4
 
 * Quais países que mais trazem atletas para os Jogos Olímpicos nas últimas edições?
 
+  * **Uso do modelo relacional**
+
+  * Através da tabela de "participação dos comites", podemos obter facilmente essa informação e comparar entre os diversos anos para inferir quais países trazem mais atletas e, até mesmo, ver se isso tem uma relação com seu desempenho nos jogos.
+
 ### Pergunta/Análise 5
 
-* Para um determinado país, há uma tendência de piora ou melhora no desempenho, nas Olimpíadas em que participou?
+* Para um determinado país, há uma tendência de piora ou de melhora no desempenho, nas Olimpíadas em que participou?
+
+  * **Uso do modelo relacional**
+
+  * Através da tabela de "participação dos comites", podemos ver se um país apresenta queda ou subida no número de medalhas e em sua classificação.
 
 ### Pergunta/Análise 6
 
 * Na Olímpiada de 1936, como foi o desempenho da Alemanha Nazista?
+
+  * **Uso do modelo relacional ou hierárquico**
+
+  * Pergunta voltada para um contexto histórico de pré Segunda Guerra Mundial e que busca saber qual foi o desempenho da Alemanha nos jogos sediados em seu próprio país. Podemos analisar seu número de medalhas, classificação e modalidades em que ficou no pódio. 
+
+### Pergunta/Análise 7
+
+* Qual o número de atletas por país em uma determinada Olimpíada?
+
+  * **Uso do modelo hierárquico**
+
+  * Podemos procurar a edição desejada no json e percorrer o vetor de comites participantes, analisando a quantidade de atletas deles.
+
+### Pergunta/Análise 8
+
+* Quais os atletas participantes de uma determinada Olimpíada e suas respectivas informações?
+
+  * **Uso do modelo hierárquico**
+
+  * Pergunta voltada para obter um conjunto de informações encapsuladas, o que é característico do modelo hierárquico. Para isso, podemos procurar a edição desejada no json e retornar o vetor de atletas participantes.
+
+### Pergunta/Análise 9
+
+* Quais os comitês participantes de uma determinada Olimpíada e seus respectivos desempenhos?
+
+  * **Uso do modelo hierárquico**
+
+  * Pergunta voltada para obter um conjunto de informações encapsuladas, o que é característico do modelo hierárquico. Para isso, podemos procurar a edição desejada no json e retornar o vetor de comites participantes.
+
+### Pergunta/Análise 10
+
+* Quais os esportes de uma determinada Olimpíada e os resultados de pódio?
+
+  * **Uso do modelo relacional ou hierárquico**
+
+  * Pergunta voltada para obter um conjunto de informações encapsuladas, o que é característico do modelo hierárquico. Para isso, podemos procurar a edição desejada no json e retornar o vetor de esportes participantes.
 
 
 
