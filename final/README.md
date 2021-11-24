@@ -85,10 +85,20 @@ Olympics.com | [Link](https://olympics.com) |Site oficial do Comitê Olímpico I
 ### Pergunta/Análise 1
 
 * Para um determinado esporte, existe algum país que constantemente é medalha de ouro?
- SELECT E.Ouro, COUNT(*) QtdOuro 
-   FROM EsportesDasEdicoes E, EsporteModalidadeM
-     WHERE M.Id=E.IdModalidade AND M.Nome='Athletics''s 100 meters'
-     GROUP BY E.Ouro; 
+
+  * Para essa análise, seram selecionados os comites ganhadores de medalha de ouro para uma determinada modalidade, em todas as olimpíadas, e agrupados pelo próprio comite, de forma a contar quantas medalhas de ouro cada um teve.
+
+  * Query SQL:
+    ~~~sql
+    SELECT E.Ouro, COUNT(*) QtdOuro 
+      FROM EsportesDasEdicoes E, EsporteModalidadeM
+        WHERE M.Id=E.IdModalidade AND M.Nome='Athletics''s 100 meters'
+        GROUP BY E.Ouro; 
+    ~~~
+
+  * Resultado:
+    ![pergunta1resultado](assets/pergunta1resultado.png)
+
 
 ### Pergunta/Análise 2
 
