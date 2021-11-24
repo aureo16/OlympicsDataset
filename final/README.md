@@ -153,7 +153,7 @@ Os dados obtidos através dessa técnica, podem ser vistos no arquivo .csv:
 [atletasEsportes.csv](./notebooks/atletasEsportes.csv)
 
 Os dados foram então **integrados** aos dos obtidos no arquivo .csv dos Jogos de Tóquio.
-Outro dado faltante **tratado** foi o sexo dos atletas, obtido analisando-se o nome das modalidades esportivs das quais participaram.
+Outro dado faltante **tratado** foi o sexo dos atletas, obtido analisando-se o nome das modalidades esportivas das quais participaram.
 
 ~~~python
 if "Women" in esportesAtleta.loc[j,"Modalidade"]:
@@ -210,7 +210,7 @@ O projeto se iniciou com os membros do grupo concordando que Jogos Olímpicos se
 
 As três coisas se provaram verdadeiras, porém, a parte da abundância de dados se mostrou contraditória.
 
-Começamos abordando apenas as edições a partir de 2000, dos jogos de verão, por acreditar que seria muito trabalhoso lidar com um volume tão grande de 120 anos de jogos, mas, no decorrer do desenvolvimento do projeto, e com o feedback do professor de que precisávamos fazer perguntas mais elaboradas, resolvemos adicionar todas as edições dos Jogos ao nosso dataset. Assim, pudemos fazer consultas com respostas mais assertivas, abragentes e com mais possibilidades.
+Começamos abordando apenas as edições a partir de 2000, dos jogos de verão, por acreditar que seria muito trabalhoso lidar com um volume tão grande de 120 anos de jogos, mas, no decorrer do desenvolvimento do projeto, e com o feedback do professor de que precisávamos fazer perguntas mais elaboradas, resolvemos adicionar todas as edições dos Jogos ao nosso dataset. Assim, pudemos fazer consultas com respostas mais assertivas, abrangentes e com mais possibilidades.
 
 Outro ponto em relação ao volume de dados, é que, apesar de realmente haverem muitos dados sobre as Olimpíadas na internet, como o nosso dataset lida com uma quantidade muito grande de atletas e informações sobre os mesmos, era de se esperar que não conseguiríamos preencher 100% dos campos das tabelas. Isso especialmente em relação à edição de Tóquio. Mesmo **extraindo** dados que necessitávamos direto do site oficial do Comitê Olímpico Internacional, como essa é a edição mais recente, há uma menor disponibilização dos dados. Além disso, outros sites têm estruturas menos amigáveis para **extração** dos dados, o que não tornou esse procedimento tão prático.
 
