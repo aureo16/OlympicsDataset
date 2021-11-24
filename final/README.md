@@ -96,7 +96,19 @@ atletas_120 = pd.read_csv('athlete_events.csv')
 atletas_120=atletas_120.loc[atletas_120["Season"] != 'Winter']
 ~~~
 
-//colocar mais trechos
+Para cada tabela, o padrão de construção seguiu, em geral, os seguintes passos:
+
+1. Seleção das colunas desejadas que estão no dataset fonte;
+
+2. Renomeação adequada das colunas;
+
+3. Criação de novas colunas vazias;
+
+4. Preenchimento de dados nas novas colunas através de combinação de informações de outras colunas ou de outras tabelas;
+
+5. Preenchimento de dados nulos com hífen;
+
+6. Exportação da tabela em formato "csv".
 
 > Todas as operações realizadas para criação dessas tabelas relacionadas aos Jogos de 1896 a 2016, através da **transformação** dos dados do arquivo .csv, podem ser observadas no notebook a seguir:
 >[Dataset_120anos.ipynb](./notebooks/Dataset_120anos.ipynb)
