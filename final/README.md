@@ -80,6 +80,120 @@ título da base | link | breve descrição
 2021 Olympics in Tokyo | [Link](https://www.kaggle.com/arjunprasadsarkhel/2021-olympics-in-tokyo) |Dataset que consiste em uma tabela com dados específicos das olimpíadas de Tóquio em 2021. 
 Olympics.com | [Link](https://olympics.com) |Site oficial do Comitê Olímpico Internacional (IOC) contendo uma base extensa de dados, notícias e informações sobre os Jogos Olímpicos e seus envolvidos, em geral.
 
+## Detalhamento do Projeto
+
+Para criação do dataset, o grupo buscou primeiramente os dados disponíveis e acessíveis sobre o tema, de modo a selecionar os que poderiam servir de fonte e de inspiração para nosso objetivo.
+As fontes que mais cumpriram os requisitos, foram dois datasets com arquivos em formato .csv, um contendo informações sobre as Olimpíadas de 1896 a 2016 e outro exclusivamente sobre as Olimpíadas de 2021 em Tokyo, além do site olympics.com, muito completo.
+As três fontes estão devidamente elencadas na seção "Bases de dados".
+
+Com essas fontes de dados em mãos, pudemos visualizar melhor o objetivo do dataset, que seria integrar e transformar os dados dessas 3 fontes, de modo a criar um dataset robusto e útil para responder grande parte das questões relacionadas aos Jogos. Os dois arquivos .csv poderiam ser trabalhados como principais fontes para o dataset, e o site olympics.com serviria de fonte para os dados adicionais que fossem necessários.
+Com isso, criamos o modelo conceitual, que serviria depois de base para os modelos lógicos, relacional e de documentos.
+Para a criação das 8 tabelas que compõem o modelo relacional do nosso dataset, utilizamos o Google Colab para trabalhar com a linguagem python e a biblioteca de manipulação de dados pandas.
+
+Obtendo os dados para manipulação do .csv de 120 anos de Jogos [athlete_events(120anos).csv](./notebooks/athlete_events(120anos).csv):
+~~~python
+atletas_120 = pd.read_csv('athlete_events.csv')
+atletas_120=atletas_120.loc[atletas_120["Season"] != 'Winter']
+~~~
+
+//colocar mais trechos
+
+> Todas as operações realizadas para criação dessas tabelas relacionadas aos Jogos de 1896 a 2016, através da **transformação** dos dados do arquivo .csv, podem ser observadas no notebook a seguir:
+>[Dataset_120anos.ipynb](./notebooks/Dataset_120anos.ipynb)
+
+Para o banco de dados dos Jogos Olímpicos de Tóquio, foram realizadas operações parecidas com as elencadas acima, para a criação de cada tabela do modelo relacional.
+Porém, muitos dados eram disponibilizados com formatações e organização diferentes do arquivo anterior. Haviam até mesmo dados faltantes, como a ano de nascimento. Nesse ponto, utilizamos a técnica de **extração** para obter dados, requisitando-os do site olympics.com, utilizando xpath para identificar os elementos no html.  
+
+Obtendo anos de nascimento dos atletas por **extração**:
+~~~python
+r = requests.get("https://olympics.com/en/athletes/"+nomeUrl)
+tree = html.fromstring(r.content)
+
+details = tree.xpath('//ul[@class="detail__list"]/li/div/text()')
+b = details.index("Year of Birth")
+year = details[b+1]
+atletas.loc[i,"Ano"] = year
+
+tabela_part = tree.xpath('//table[@class="sm-mb6 has-header"]/tbody/tr')
+~~~
+
+Os dados obtidos através dessa técnica, podem ser vistos no .csv:
+[atletas_idades.csv](./notebooks/atletas_idades.csv)
+
+Obtendo modalidades em que os atletas participaram por **extração**:
+~~~python
+if nomeOlimp[0] == "Tokyo 2020":
+    for tr in tabela_part:
+        td = tr.xpath('.//td')
+        medalha = td[1].xpath('.//div')[0].text_content().replace('"','').replace("\n","").replace("\r","").replace(" ","")
+        modalidade = td[2].text_content()
+        esporte = td[3].text_content()
+        atletasEsportes.loc[len(atletasEsportes)] = [nomeReal, nomeUrl, esporte, modalidade, medalha]
+~~~
+
+Os dados obtidos através dessa técnica, podem ser vistos no arquivo .csv:
+[atletasEsportes.csv](./notebooks/atletasEsportes.csv)
+
+Os dados foram então **integrados** aos dos obtidos no arquivo .csv dos Jogos de Tóquio.
+Outro dado faltante **tratado** foi o sexo dos atletas, obtido analisando-se o nome das modalidades esportivs das quais participaram.
+
+~~~python
+if "Women" in esportesAtleta.loc[j,"Modalidade"]:
+    atletas.loc[i,"Sexo"]="F"
+    break;
+elif "Men" in esportesAtleta.loc[j,"Modalidade"]:
+    atletas.loc[i,"Sexo"]="M"
+    break;
+~~~
+
+Mais um tratamento foi em relação ao nome dos atletas, que aparecia invertido no arquivo original.
+~~~python
+  atleta = atletas.loc[i]
+  nome=atleta.Nome.replace(".","").replace("'"," ")
+  nomeSplit = nome.split()
+
+  index = 0
+  for j in range(len(nomeSplit)-1,-1,-1):
+    if nomeSplit[j].upper() == nomeSplit[j] and j!=len(nomeSplit)-1:
+      index = j+1
+      break;
+  nomeOrd = nomeSplit[index:]+nomeSplit[:index]
+  for j in range(len(nomeOrd)):
+    nomeOrd[j] = nomeOrd[j].lower()
+
+  nomeReal = " ".join(nomeOrd).title()
+  atletas.loc[i,"Nome"] = nomeReal
+~~~
+
+> Todas as operações realizadas para criação dessas tabelas em relação às Olimpíadas de Tóquio, através da **transformação** dos dados do arquivo .csv, podem ser observadas no notebook a seguir:
+>[Dataset_Tokyo_2021.ipynb](./notebooks/Dataset_Tokyo_2021.ipynb)
+
+Nesse ponto, seria realizada a maior **integração** da criação do dataset, juntando os tabelas criadas a partir da fonte de 120 anos de Olimpíadas e da fonte da edição de Tóquio. Porém, os dados se mostraram de difícil **integração**, e, por se tratar de apenas mais uma edição, além das outras 29 analisadas, acreditamos que seria mais produtivo focar nas análises e no aperfeiçoamento dos dados que obtivemos da fonte de 120 anos. Mas ainda assim, os dados de Tóquio estão disponíveis e foram trabalhosos, apenas não foram integrados.
+
+O último a ser criado foi o modelo hierárquico. Para tal, foram utilizados os 8 arquivos .csv obtidos na criação das 8 tabelas em relação aos jogos de 1896 a 2016, que compõem o modelo relacional.
+
+~~~python
+atletas = pd.read_csv("atletas.csv")
+edicoes = pd.read_csv("edicoes.csv")
+paises = pd.read_csv("comites.csv")
+esportesModalidades = pd.read_csv("esportes.csv")
+participacaoComites = pd.read_csv("participacaoComites.csv")
+participacaoAtletas = pd.read_csv("participacaoAtletas.csv")
+comiteDosAtletas = pd.read_csv("comiteDosAtletas.csv")
+esportesDasEdicoes = pd.read_csv("esportesDasEdicoes.csv")
+~~~
+
+As tabelas foram percorridas e os dados foram inclusos em cada camada do modelo hierárquico, fazendo-se uma **transformação** de dados.
+> Todas as operações realizadas para criação do modelo hierárquico podem ser observadas no notebook a seguir:
+>[hierarquico.ipynb](./notebooks/hierarquico.ipynb)
+
+## Evolução do Projeto
+> Relatório de evolução, descrevendo as evoluções na modelagem do projeto, dificuldades enfrentadas, mudanças de rumo, melhorias e lições aprendidas. Referências aos diagramas, modelos e recortes de mudanças são bem-vindos.
+> Podem ser apresentados destaques na evolução dos modelos conceitual e lógico. O modelo inicial e intermediários (quando relevantes) e explicação de refinamentos, mudanças ou evolução do projeto que fundamentaram as decisões.
+> Relatar o processo para se alcançar os resultados é tão importante quanto os resultados.
+
+O que tiramos de lição ao desenvolver esse dataset, é que tratar e integrar dados é um pouco mais complicado do que parece. Uma simples formatação diferente, ou disponibilização de dados de forma diferente, pode dificultar uma integração. Extrações podem ser difíceis devido à forma como os sites disponibilizam os dados. O tratamento para otimizar as consultas e utilidade dos dados pode não ser trivial, necessitando uma boa modelagem conceitual e lógica para atingir um bom resultado.
+
 ## Perguntas/Análise com Resposta Implementada
 
 ### Pergunta/Análise 1
