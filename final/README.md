@@ -15,43 +15,71 @@ Essa grande quantidade de jogos resulta em uma grande quantidade de informaçõe
 Com isso, o objetivo desse projeto é, através dos diversos bancos de dados existentes e através de pesquisas na internet, construir um dataset sobre os Jogos Olímpicos dos últimos anos que seja organizado e bem estruturado, permitindo diversos tipos de análises sobre o tema. Devido a possíveis limitações relacionadas ao grande número de edições dos Jogos, ainda vamos decidir exatamente quantos anos o dataset irá abordar, mas, inicialmente, pensamos em reunir os dados de, pelo menos, todos os jogos realizados no século XXI.
 
 
-## Modelo Conceitual Preliminar
+## Modelo Conceitual
 
-![ER jogos olimpicos](images/Modelo_Conceitual.png)
+![ER jogos olimpicos](assets/Modelo_Conceitual.png)
 
-## Modelos Lógicos Preliminares
+## Modelos Lógicos
 
 ~~~
 EdicaoDosJogos (_Ano_, NumeroDaEdicao, CidadeSede, TotalDeAtletas, Mascote)
-Atleta (_Id_, Nome, AnoDeNascimento, Sexo)
-ComiteOlimpico(_Sigla_, País)
-EsporteModalidade(_Id_, Nome, EsportePai)
-ParticipacaoComites(_IdComite_, AnoEdicao,  QtdAtletas, QtdOuro , QtdPrata , QtdBronze, Classificacao)
-IdComite chave estrangeira -> ComiteOlimpico(Sigla),AnoEdicao chave estrangeira -> EdicaoDosJogos(Ano)
-ParticipacaoAtletas(_IdAtleta_, _AnoEdicao_, _IdModalidade_, Altura, Peso, Medalha)
-IdAtleta chave estrangeira -> Atleta(Id), AnoEdicao chave estrangeira -> EdicaoDosJogos(Ano), IdModalidade chave estrangeira -> EsporteModalidade(Id)
-ComiteDosAtletas(_IdComite_,_IdAtleta_)
-IdComite chave estrangeira -> ComiteOlimpico(Sigla), IdAtleta chave estrangeira -> Atleta(Id)
-EsportesDasEdicoes(_AnoEdicao_, _IdModalidade_, Ouro, Prata, Bronze)
-AnoEdicao chave estrangeira -> EdicaoDosJogos(Ano), IdModalidade chave estrangeira -> EsporteModalidade(Id)
 
+Atleta (_Id_, Nome, AnoDeNascimento, Sexo)
+
+ComiteOlimpico(_Sigla_, País)
+
+EsporteModalidade(_Id_, Nome, EsportePai)
+
+ParticipacaoComites(_IdComite_, _AnoEdicao_,  QtdAtletas, QtdOuro , QtdPrata , QtdBronze, Classificacao)
+  IdComite chave estrangeira -> ComiteOlimpico(Sigla)
+  AnoEdicao chave estrangeira -> EdicaoDosJogos(Ano)
+
+ParticipacaoAtletas(_IdAtleta_, _AnoEdicao_, _IdModalidade_, Altura, Peso, Medalha)
+  IdAtleta chave estrangeira -> Atleta(Id) 
+  AnoEdicao chave estrangeira -> EdicaoDosJogos(Ano)
+  IdModalidade chave estrangeira -> EsporteModalidade(Id)
+
+ComiteDosAtletas(_IdComite_,_IdAtleta_)
+  IdComite chave estrangeira -> ComiteOlimpico(Sigla) 
+  IdAtleta chave estrangeira -> Atleta(Id)
+
+EsportesDasEdicoes(_AnoEdicao_, _IdModalidade_, Ouro, Prata, Bronze)
+  AnoEdicao chave estrangeira -> EdicaoDosJogos(Ano)
+  IdModalidade chave estrangeira -> EsporteModalidade(Id)
 ~~~
 
-## Dataset Preliminar a ser Publicado
+## Dataset Publicado
 
 título do arquivo/base | link | breve descrição
 ----- | ----- | -----
-`<título do arquivo/base>` | `<link para arquivo/base>` | `<breve descrição do arquivo/base>`
+Edicoes | [edicoes.csv](./data/processed/edicoes.csv) | Arquivo csv contendo tabela EdicaoDosJogos referente ao modelo lógico relacional
+Atletas | [atletas.csv](./data/processed/atletas.csv) | Arquivo csv contendo tabela Atleta referente ao modelo lógico relacional
+Comites | [comites.csv](./data/processed/comites.csv) | Arquivo csv contendo tabela ComiteOlimpico referente ao modelo lógico relacional
+EsporteModalidade | [esportes.csv](./data/processed/esportes.csv) | Arquivo csv contendo tabela EsporteModalidade referente ao modelo lógico relacional
+ParticipacaoComites | [participacaoComites.csv](./data/processed/participacaoComites.csv) | Arquivo csv contendo tabela ParticipacaoComites referente ao modelo lógico relacional
+ParticipacaoAtletas | [participacaoAtletas.csv](./data/processed/participacaoAtletas.csv) | Arquivo csv contendo tabela ParticipacaoAtletas referente ao modelo lógico relacional
+ComiteDosAtletas | [comiteDosAtletas.csv](./data/processed/comiteDosAtletas.csv) | Arquivo csv contendo tabela ComiteDosAtletas referente ao modelo lógico relacional
+EsportesDasEdicoes | [esportesDasEdicoes.csv](./data/processed/esportesDasEdicoes.csv) | Arquivo csv contendo tabela EsportesDasEdicoes referente ao modelo lógico relacional
+Edicoes-Tokyo | [edicoes-Tokyo.csv](./data/processed/edicoes-Tokyo.csv) | Arquivo csv contendo tabela EdicaoDosJogos referente ao modelo lógico relacional. Dados exclusivos da Olimpíada de Tokyo
+Atletas-Tokyo | [atletas-Tokyo.csv](./data/processed/atletas-Tokyo.csv) | Arquivo csv contendo tabela Atleta referente ao modelo lógico relacional. Dados exclusivos da Olimpíada de Tokyo
+Comites-Tokyo | [comites-Tokyo.csv](./data/processed/comites-Tokyo.csv) | Arquivo csv contendo tabela ComiteOlimpico referente ao modelo lógico relacional. Dados exclusivos da Olimpíada de Tokyo
+EsporteModalidade-Tokyo | [esporteModalidade-Tokyo.csv](./data/processed/esporteModalidade-Tokyo.csv) | Arquivo csv contendo tabela EsporteModalidade referente ao modelo lógico relacional. Dados exclusivos da Olimpíada de Tokyo
+ParticipacaoComites-Tokyo | [participacaoComites-Tokyo.csv](./data/processed/participacaoComites-Tokyo.csv) | Arquivo csv contendo tabela ParticipacaoComites referente ao modelo lógico relacional. Dados exclusivos da Olimpíada de Tokyo
+ParticipacaoAtletas-Tokyo | [participacaoAtletas-Tokyo.csv](./data/processed/participacaoAtletas-Tokyo.csv) | Arquivo csv contendo tabela ParticipacaoAtletas referente ao modelo lógico relacional. Dados exclusivos da Olimpíada de Tokyo
+ComiteDosAtletas-Tokyo | [comiteDosAtletas-Tokyo.csv](./data/processed/comiteDosAtletas-Tokyo.csv) | Arquivo csv contendo tabela ComiteDosAtletas referente ao modelo lógico relacional. Dados exclusivos da Olimpíada de Tokyo
+EsportesDasEdicoes-Tokyo | [esportesDasEdicoes-Tokyo.csv](./data/processed/esportesDasEdicoes-Tokyo.csv) | Arquivo csv contendo tabela EsportesDasEdicoes referente ao modelo lógico relacional. Dados exclusivos da Olimpíada de Tokyo
+Olimpiadas | [olimpiadas.json](./data/processed/olimpiadas.json) | Arquivo json contendo dados referentes ao modelo lógico hierárquico
+OlimpiadasTokyo | [olimpiadasTokyo.json](./data/processed/olimpiadasTokyo.json) | Arquivo json contendo dados referentes ao modelo lógico hierárquico. Dados exclusivos da Olimpíada de Tokyo
 
 
 ## Bases de Dados
 
 título da base | link | breve descrição
 ----- | ----- | -----
-`120 years of Olympic history: athletes and results` | `https://www.kaggle.com/heesoo37/120-years-of-olympic-history-athletes-and-results/discussion/69221` | `Dataset histórico, uma tabela com dados das olimpíadas de 1896 a 2016`
-`2021 Olympics in Tokyo` |`https://www.kaggle.com/arjunprasadsarkhel/2021-olympics-in-tokyo` |`Dataset que consiste em uma tabela com dados específicos das olimpíadas de Tóquio em 2021.` 
-`Olympics.com`|`https://olympics.com` |`Site oficial do Comitê Olímpico Internacional (IOC) contendo uma base extensa de dados, notícias e informações sobre os Jogos Olímpicos e seus envolvidos, em geral.`
-`
+120 years of Olympic history: athletes and results | [Link](https://www.kaggle.com/heesoo37/120-years-of-olympic-history-athletes-and-results/discussion/69221) | Dataset histórico, uma tabela com dados das olimpíadas de 1896 a 2016
+2021 Olympics in Tokyo | [Link](https://www.kaggle.com/arjunprasadsarkhel/2021-olympics-in-tokyo) |Dataset que consiste em uma tabela com dados específicos das olimpíadas de Tóquio em 2021. 
+Olympics.com | [Link](https://olympics.com) |Site oficial do Comitê Olímpico Internacional (IOC) contendo uma base extensa de dados, notícias e informações sobre os Jogos Olímpicos e seus envolvidos, em geral.
+
 ## Perguntas/Análise com Resposta Implementada
 
 ### Pergunta/Análise 1
