@@ -86,69 +86,148 @@ Olympics.com | [Link](https://olympics.com) |Site oficial do Comitê Olímpico I
 
 * Para um determinado esporte, existe algum país que constantemente é medalha de ouro?
 
-  * Para essa análise, seram selecionados os comites ganhadores de medalha de ouro para uma determinada modalidade, em todas as olimpíadas, e agrupados pelo próprio comite, de forma a contar quantas medalhas de ouro cada um teve.
+  * Para essa análise, serão selecionados os comites ganhadores de medalha de ouro para uma determinada modalidade, em todas as olimpíadas, e agrupados pelo próprio comite, de forma a contar quantas medalhas de ouro cada um teve.
 
   * Query SQL:
 
     ~~~sql
     SELECT E.Ouro, COUNT(*) QtdOuro 
-      FROM EsportesDasEdicoes E, EsporteModalidadeM
+      FROM EsportesDasEdicoes E, EsporteModalidade M
         WHERE M.Id=E.IdModalidade AND M.Nome='Athletics''s 100 meters'
         GROUP BY E.Ouro; 
     ~~~
 
   * Resultado:
-  
+
     ![pergunta1resultado](assets/pergunta1resultado.png)
+
+    Vemos que os Estados Unidos é o país com mais medalhas de ouro para a modalidade de 100m no atletismo.
 
 
 ### Pergunta/Análise 2
 
 * Existe alguma relação entre altura do atleta e esporte praticado por ele? E em relação ao peso?
-  A análise mostra que jogadores de basquete tendem a ser mais altos, enquanto que atletas de ginástica tendem a ser mais baixos. Calcula-se a média geral e depois as   médias da modalidade
-  SELECT AnoEdicao, ROUND(AVG(CAST(Altura as float)),1) Media_altura 
-    FROM ParticipacaoAtltetas
-      WHERE AnoEdicao=2016 AND Altura <> '-'
-      GROUP BY AnoEdicao;
-      
-    SELECT *
+
+  * Para essa análise, calculamos a media de altura dos atletas em cada modalidade, além da media geral da olímpiada. Com isso, podemos ver que modalidades tem maior e menor média tanto de altura como de peso.
+
+  * Query SQL:
+
+    ~~~sql
+    /*Altura*/
+    SELECT AnoEdicao, ROUND(AVG(CAST (Altura as float)),1) Media_altura
+    FROM ParticipacaoAtletas
+    WHERE AnoEdicao =2016 and Altura<>'-'
+    GROUP BY AnoEdicao;
+
+    SELECT * 
       FROM (
-            SELECT E.EsportePai, E. EsporteNome,ROUND(AVG(CAST(Altura as float)),1) Media_altura
-             FROM ParticipacaoAtletas P, EsporteModalidade E
-              WHERE P.IdModalidade=E.Id AND AnoEdico=2016 AND Altura<> '-'
-              GROUP BY IdModalidade
-              ORDER BY MEDIA_ALTURA Desc
+          SELECT E.EsportePai, E.Nome, ROUND(AVG(CAST (Altura as float)),1) Media_Altura
+          FROM ParticipacaoAtletas P, EsporteModalidade E
+          WHERE P.IdModalidade=E.Id and AnoEdicao=2016 and Altura<>'-'
+          GROUP BY IdModalidade
+          )
+      ORDER BY MEDIA_ALTURA DESC
+    ~~~
+    ~~~sql
+    /*Peso*/
+    SELECT AnoEdicao, ROUND(AVG(CAST (Peso as float)),1) Media_peso
+    FROM ParticipacaoAtletas
+    WHERE AnoEdicao =2016 and Peso<>'-'
+    GROUP BY AnoEdicao;
+
+    SELECT * 
+      FROM (
+          SELECT E.EsportePai, E.Nome, ROUND(AVG(CAST (Peso as float)),1) Media_peso
+          FROM ParticipacaoAtletas P, EsporteModalidade E
+          WHERE P.IdModalidade=E.Id and AnoEdicao=2016 and Peso<>'-'
+          GROUP BY IdModalidade
+          )
+      ORDER BY MEDIA_peso DESC
+    ~~~
+
+  * Resultado:
+
+    Altura
+
+    ![pergunta2resultado1](assets/pergunta2resultado1.png)
+    ![pergunta2resultado2](assets/pergunta2resultado2.png)
+
+    Peso
+
+    ![pergunta2resultado3](assets/pergunta2resultado3.png)
+    ![pergunta2resultado4](assets/pergunta2resultado4.png)
+
+    Vemos que os atletas mais altos participam de esportes como basquete, volei, lançamento de disco e taekwondo, nas modalidades masculinas, enquanto que atletas mais baixos participam da ginástica e levantamento de peso, nas modalidades femininas. Já atletas de maior peso participam de esportes como levantamento de peso, lançamento de peso, judo e luta, nas modalidades masculinas, enquanto que os de menor peso participam de ginástica e ginástica rítmica, além de levantamento de peso, nas modalidades femininas.
     
 ### Pergunta/Análise 3
 
 * Qual a média de idade dos atletas nas primeiras Olimpíadas? E nas últimas?
-  As médias permanecem relativamente as mesmas.
-  CREATE VIEW Idade as SELECT P.IdAtleta, P.AnoEdicao, (P.AnoEdicao-cast( A.AnoDeNascimento as float) AS idade
-    FROM Atleta A, ParticipacaoAtletas P
-    WHERE A.Id=P.IdAtleta AND A.AnoDeNascimento <> '-';
-    
+
+  * Para essa análise, a idade dos atletas é calculada com base no seu ano de nascimento e a edição em que participa. Em seguida, calculamos a média de idade por edição.
+
+  * Query SQL:
+
+    ~~~sql
+    CREATE VIEW Idade AS
+    SELECT P.IdAtleta, P.AnoEdicao, (P.AnoEdicao-cast (A.AnoDeNascimento as float)) AS idade
+        FROM Atleta A, ParticipacaoAtletas P
+        WHERE A.Id=P.IdAtleta and A.AnoDeNascimento<>'-';
+
     SELECT AnoEdicao, ROUND(AVG(idade),0) Media_Idade
-      FROM Idade
-      GROUP BY AnoEdicao
-      ORDER BY AnoEdicao
+        FROM Idade
+        GROUP BY AnoEdicao
+        ORDER BY AnoEdicao
+    ~~~
+
+  * Resultado:
+
+    ![pergunta3resultado1](assets/pergunta3resultado1.png)
+    ![pergunta3resultado2](assets/pergunta3resultado2.png)
+
+    É possível ver que as médias permaneceram relativamente as mesmas, na faixa dos 20 a 30 anos.
       
- ### Pergunta/Análise 4
+### Pergunta/Análise 4
  
- * No período da Guerra Fria, é possível ver o predomínio das duas grandes potências nos pódios das Olímpiadas?
-   EUA e URSS estão constantemente na liderança
-   
-   SELECT AnoEdicao, IdComite,Classificacao
-    FROM ParticipacaoComites
-      WHERE(IdComite='USA' OR IdComite='URS') AND AnoEdicao>1947 AND AnoEdicao<1989
+* No período da Guerra Fria, é possível ver o predomínio das duas grandes potências nos pódios das Olímpiadas?
+
+  * Para essa análise, buscamos a classificação dos Estados Unidos e da União Soviética no periodo entre 1947 e 1989 (periodo da Guerra Fria).
+
+  * Query SQL:
+
+    ~~~sql
+    SELECT AnoEdicao, IdComite, Classificacao
+      FROM ParticipacaoComites
+      WHERE (IdComite='USA' OR IdComite='URS') AND AnoEdicao>1947 AND AnoEdicao< 1989;
+    ~~~
+
+  * Resultado:
+
+    ![pergunta4resultado](assets/pergunta4resultado.png)
+
+    Vemos que, realmente, EUA e URSS estão constantemente na liderança.
       
- ### Pergunta/Análise 5
+### Pergunta/Análise 5
  
- * Qual a proporção de atletas do sexo masculino e do sexo feminino participando nos Jogos Olímpicos?
-   SELECT P.ANOEDICAO,A.SEXO,, COUNT (*) TOTAL
-    FROM ATLETA A,PARTICIPACAOATELTAS P
-     WHERE A.ID=P.IDATLETA
-     GROUP BY P.ANOEDICAO, A.SEXO
-     ORDER BY P.ANOEDICAO
+* Qual a proporção de atletas do sexo masculino e do sexo feminino participando nos Jogos Olímpicos?
+
+  * Para essa análise, selecionamos o sexo dos atletas e agrupamos os dados de forma a encontrar o total de atletas do sexo masculino ou feminino em uma determinada edição.
+
+  * Query SQL:
+
+    ~~~sql
+    SELECT P.ANOEDICAO, A.SEXO, COUNT(*) TOTAL
+      FROM ATLETA A, PARTICIPACAOATLETAS P
+      WHERE A.ID=P.IDATLETA
+      GROUP BY P.ANOEDICAO, A.SEXO
+      ORDER BY P.ANOEDICAO
+    ~~~
+
+  * Resultado:
+
+    ![pergunta5resultado1](assets/pergunta5resultado1.png)
+    ![pergunta5resultado2](assets/pergunta5resultado2.png)
+
+    Vemos que a proporção entre os sexos é bem discrepante nas primeiras olimpíadas e que essa diferença vem diminuindo nos jogos mais recentes.
 
 ## Perguntas/Análise propostas mas não  implementada
 
