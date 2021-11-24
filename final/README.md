@@ -12,7 +12,7 @@ Os Jogos Olímpicos, ou Olimpíadas, são o maior evento esportivo do mundo e, d
 
 Essa grande quantidade de jogos resulta em uma grande quantidade de informações sobre os atletas, os países participantes, os países sede, as medalhas, os esportes, os vencedores de cada modalidade, entre outros. No entanto, encontrar um banco de dados com todas essas informações de forma centralizada e bem organizada é difícil, pois os dados disponíveis hoje na internet, em geral, são bancos de dados de algum ano específico das Olimpíadas ou bancos que abordam sobre várias Olimpíadas, mas que não possuem um modelo lógico bem estruturado, dificultando certos tipos de análise.
 
-Com isso, o objetivo desse projeto é, através dos diversos bancos de dados existentes e através de pesquisas na internet, construir um dataset sobre os Jogos Olímpicos dos últimos anos que seja organizado e bem estruturado, permitindo diversos tipos de análises sobre o tema. Devido a possíveis limitações relacionadas ao grande número de edições dos Jogos, ainda vamos decidir exatamente quantos anos o dataset irá abordar, mas, inicialmente, pensamos em reunir os dados de, pelo menos, todos os jogos realizados no século XXI.
+Com isso, o objetivo desse projeto é, através dos diversos bancos de dados existentes e através de pesquisas na internet, construir um dataset sobre os Jogos Olímpicos dos últimos anos que seja organizado e bem estruturado, permitindo diversos tipos de análises sobre o tema.
 
 
 ## Modelo Conceitual
@@ -220,9 +220,11 @@ Consideramos que o projeto evoluiu num ritmo linear, sem muitos altos e baixos, 
 
 O que tiramos de lição ao desenvolver esse dataset é que tratar e integrar dados é um pouco mais complicado do que parece. Uma simples formatação diferente, ou disponibilização de dados de forma diferente, pode dificultar uma integração. Extrações podem ser difíceis, devido à forma como os sites disponibilizam os dados, e também demoradas. O tratamento para otimizar as consultas e utilidade dos dados pode não ser trivial, necessitando uma boa modelagem conceitual e lógica para atingir um bom resultado.
 
-## Perguntas/Análise com Resposta Implementada
+## Perguntas de Pesquisa/Análise Combinadas e Respectivas Análises
 
-### Pergunta/Análise 1
+### Perguntas/Análise com Resposta Implementada
+
+#### Pergunta/Análise 1
 
 * Para um determinado esporte, existe algum país que constantemente é medalha de ouro?
 
@@ -246,7 +248,7 @@ O que tiramos de lição ao desenvolver esse dataset é que tratar e integrar da
     Vemos que os Estados Unidos é o país com mais medalhas de ouro para a modalidade de 100m no atletismo.
 
 
-### Pergunta/Análise 2
+#### Pergunta/Análise 2
 
 * Existe alguma relação entre altura do atleta e esporte praticado por ele? E em relação ao peso?
 
@@ -303,7 +305,7 @@ O que tiramos de lição ao desenvolver esse dataset é que tratar e integrar da
 
     Vemos que os atletas mais altos participam de esportes como basquete, volei, lançamento de disco e taekwondo, nas modalidades masculinas, enquanto que atletas mais baixos participam da ginástica e levantamento de peso, nas modalidades femininas. Já atletas de maior peso participam de esportes como levantamento de peso, lançamento de peso, judo e luta, nas modalidades masculinas, enquanto que os de menor peso participam de ginástica e ginástica rítmica, além de levantamento de peso, nas modalidades femininas.
     
-### Pergunta/Análise 3
+#### Pergunta/Análise 3
 
 * Qual a média de idade dos atletas nas primeiras Olimpíadas? E nas últimas?
 
@@ -332,7 +334,7 @@ O que tiramos de lição ao desenvolver esse dataset é que tratar e integrar da
 
     É possível ver que as médias permaneceram relativamente as mesmas, na faixa dos 20 a 30 anos.
       
-### Pergunta/Análise 4
+#### Pergunta/Análise 4
  
 * No período da Guerra Fria, é possível ver o predomínio das duas grandes potências nos pódios das Olímpiadas?
 
@@ -354,7 +356,7 @@ O que tiramos de lição ao desenvolver esse dataset é que tratar e integrar da
 
     Vemos que, realmente, EUA e URSS estão constantemente na liderança.
       
-### Pergunta/Análise 5
+#### Pergunta/Análise 5
  
 * Qual a proporção de atletas do sexo masculino e do sexo feminino participando nos Jogos Olímpicos?
 
@@ -379,7 +381,7 @@ O que tiramos de lição ao desenvolver esse dataset é que tratar e integrar da
 
     Vemos que a proporção entre os sexos é bem discrepante nas primeiras olimpíadas e que essa diferença vem diminuindo nos jogos mais recentes.
 
-### Pergunta/Análise 6
+#### Pergunta/Análise 6
 
 * Quais foram os países ganhadores de medalha de ouro no esporte X nas últimas 5 Olimpíadas?
 
@@ -412,7 +414,7 @@ O que tiramos de lição ao desenvolver esse dataset é que tratar e integrar da
 
     Ganhadores de medalha de ouro na modalidade "Judo Women's Heavyweight"
 
-### Pergunta/Análise 7
+#### Pergunta/Análise 7
 
 * Quais as modalidades realizadas pelo atleta X na Olimpíada X?
 
@@ -445,9 +447,9 @@ O que tiramos de lição ao desenvolver esse dataset é que tratar e integrar da
 
     Modalidades realizadas por Daiane dos Santos em 2004
 
-## Perguntas/Análise propostas mas não  implementada
+### Perguntas/Análise Propostas mas Não Implementadas
 
-### Pergunta/Análise 1
+#### Pergunta/Análise 1
 
 * Quais os países que mais ganharam medalhas e os países que menos ganharam medalhas em uma determinada Olimpíada?
 
@@ -455,7 +457,7 @@ O que tiramos de lição ao desenvolver esse dataset é que tratar e integrar da
 
   * Podemos selecionar os comites de maior e menor classificação em uma edição específica e até mesmo comparar entre diversas edições para analisar se os países alto classificados mantém sua posição e se os países de baixa classificação tem alguma evolução.
 
-### Pergunta/Análise 2
+#### Pergunta/Análise 2
 
 * Qual o número médio de medalhas de um país nas Olimpíadas que ele participou?
 
@@ -463,7 +465,7 @@ O que tiramos de lição ao desenvolver esse dataset é que tratar e integrar da
 
   * Podemos calcular essa média para analisar que países conseguem manter um alto número de medalhas nas edições. Para isso, deve-se somar a quantidade de medalhas de ouro, prata e bronze de um comite para cada edição e, por fim, realizar a média.
 
-### Pergunta/Análise 3
+#### Pergunta/Análise 3
 
 * Em quantas Olimpíadas um determinado atleta participou e quantas medalhas ele ganhou?
 
@@ -471,7 +473,7 @@ O que tiramos de lição ao desenvolver esse dataset é que tratar e integrar da
 
   * Trata-se de uma pergunta que busca saber o histórico de um atleta nas edições. Através da tabela de "participação dos atletas" podemos somar suas paticipações em jogos e as medalhas que conquistou.
 
-### Pergunta/Análise 4
+#### Pergunta/Análise 4
 
 * Quais países que mais trazem atletas para os Jogos Olímpicos nas últimas edições?
 
@@ -479,7 +481,7 @@ O que tiramos de lição ao desenvolver esse dataset é que tratar e integrar da
 
   * Através da tabela de "participação dos comites", podemos obter facilmente essa informação e comparar entre os diversos anos para inferir quais países trazem mais atletas e, até mesmo, ver se isso tem uma relação com seu desempenho nos jogos.
 
-### Pergunta/Análise 5
+#### Pergunta/Análise 5
 
 * Para um determinado país, há uma tendência de piora ou de melhora no desempenho, nas Olimpíadas em que participou?
 
@@ -487,7 +489,7 @@ O que tiramos de lição ao desenvolver esse dataset é que tratar e integrar da
 
   * Através da tabela de "participação dos comites", podemos ver se um país apresenta queda ou subida no número de medalhas e em sua classificação.
 
-### Pergunta/Análise 6
+#### Pergunta/Análise 6
 
 * Na Olímpiada de 1936, como foi o desempenho da Alemanha Nazista?
 
@@ -495,7 +497,7 @@ O que tiramos de lição ao desenvolver esse dataset é que tratar e integrar da
 
   * Pergunta voltada para um contexto histórico de pré Segunda Guerra Mundial e que busca saber qual foi o desempenho da Alemanha nos jogos sediados em seu próprio país. Podemos analisar seu número de medalhas, classificação e modalidades em que ficou no pódio. 
 
-### Pergunta/Análise 7
+#### Pergunta/Análise 7
 
 * Qual o número de atletas por país em uma determinada Olimpíada?
 
@@ -503,7 +505,7 @@ O que tiramos de lição ao desenvolver esse dataset é que tratar e integrar da
 
   * Podemos procurar a edição desejada no json e percorrer o vetor de comites participantes, analisando a quantidade de atletas deles.
 
-### Pergunta/Análise 8
+#### Pergunta/Análise 8
 
 * Quais os atletas participantes de uma determinada Olimpíada e suas respectivas informações?
 
@@ -511,7 +513,7 @@ O que tiramos de lição ao desenvolver esse dataset é que tratar e integrar da
 
   * Pergunta voltada para obter um conjunto de informações encapsuladas, o que é característico do modelo hierárquico. Para isso, podemos procurar a edição desejada no json e retornar o vetor de atletas participantes.
 
-### Pergunta/Análise 9
+#### Pergunta/Análise 9
 
 * Quais os comitês participantes de uma determinada Olimpíada e seus respectivos desempenhos?
 
@@ -519,7 +521,7 @@ O que tiramos de lição ao desenvolver esse dataset é que tratar e integrar da
 
   * Pergunta voltada para obter um conjunto de informações encapsuladas, o que é característico do modelo hierárquico. Para isso, podemos procurar a edição desejada no json e retornar o vetor de comites participantes.
 
-### Pergunta/Análise 10
+#### Pergunta/Análise 10
 
 * Quais os esportes de uma determinada Olimpíada e os resultados de pódio?
 
@@ -527,6 +529,7 @@ O que tiramos de lição ao desenvolver esse dataset é que tratar e integrar da
 
   * Pergunta voltada para obter um conjunto de informações encapsuladas, o que é característico do modelo hierárquico. Para isso, podemos procurar a edição desejada no json e retornar o vetor de esportes participantes.
 
-
+> O arquivo do notebook que executa o conjunto de queries sql pode ser acessado pelo link [queriesPerguntasModeloRelacional.ipynb](./notebooks/queriesPerguntasModeloRelacional.ipynb)
+> O arquivo do notebook que executa os códigos em python para o modelo hierárquico pode ser acessado pelo link [queriesPerguntasModeloHierarquico.ipynb](./notebooks/queriesPerguntasModeloHierarquico.ipynb)
 
 
