@@ -17,9 +17,11 @@ Com isso, o objetivo desse projeto é, através dos diversos bancos de dados exi
 
 ## Modelo Conceitual
 
-![ER jogos olimpicos](assets/Modelo_Conceitual.png)
+![ER jogos olimpicos](assets/modeloConceitual.png)
 
 ## Modelos Lógicos
+
+### Modelo Relacional
 
 ~~~
 EdicaoDosJogos (_Ano_, NumeroDaEdicao, CidadeSede, TotalDeAtletas, Mascote)
@@ -47,6 +49,10 @@ EsportesDasEdicoes(_AnoEdicao_, _IdModalidade_, Ouro, Prata, Bronze)
   AnoEdicao chave estrangeira -> EdicaoDosJogos(Ano)
   IdModalidade chave estrangeira -> EsporteModalidade(Id)
 ~~~
+
+### Modelo Hierárquico
+
+![hierarquico](assets/modeloHierarquico.png)
 
 ## Dataset Publicado
 
