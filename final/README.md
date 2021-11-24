@@ -14,6 +14,8 @@ Essa grande quantidade de jogos resulta em uma grande quantidade de informaçõe
 
 Com isso, o objetivo desse projeto é, através dos diversos bancos de dados existentes e através de pesquisas na internet, construir um dataset sobre os Jogos Olímpicos dos últimos anos que seja organizado e bem estruturado, permitindo diversos tipos de análises sobre o tema.
 
+## Slides da Apresentação
+[Link para slides](slides/slides.pdf)
 
 ## Modelo Conceitual
 
