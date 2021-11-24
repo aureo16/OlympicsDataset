@@ -529,7 +529,8 @@ O que tiramos de lição ao desenvolver esse dataset é que tratar e integrar da
 
   * Pergunta voltada para obter um conjunto de informações encapsuladas, o que é característico do modelo hierárquico. Para isso, podemos procurar a edição desejada no json e retornar o vetor de esportes participantes.
 
-> O arquivo do notebook que executa o conjunto de queries sql pode ser acessado pelo link [queriesPerguntasModeloRelacional.ipynb](./notebooks/queriesPerguntasModeloRelacional.ipynb)
+> O arquivo do notebook que executa o conjunto de queries sql pode ser acessado pelo link [queriesPerguntasModeloRelacional.ipynb](./notebooks/queriesPerguntasModeloRelacional.ipynb).
+
 > O arquivo do notebook que executa os códigos em python para o modelo hierárquico pode ser acessado pelo link [queriesPerguntasModeloHierarquico.ipynb](./notebooks/queriesPerguntasModeloHierarquico.ipynb)
 
 
